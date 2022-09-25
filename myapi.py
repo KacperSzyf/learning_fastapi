@@ -18,3 +18,7 @@ students = {
 @app.get("/")
 def index():
     return{"name": "test data"}
+
+@app.get("/get-student/{student_id}")
+def get_student(student_id: int):
+    return students[student_id]
