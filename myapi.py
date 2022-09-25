@@ -1,5 +1,7 @@
 #imports
 from fastapi import FastAPI, Path
+from typing import Optional
+from pydantic import BaseModel
 
 
 #Main
@@ -10,9 +12,15 @@ students = {
     1: {
         "name": "jane",
         "age": 20,
-        "class": 2022
+        "yearOf": 2022
     }
 }
+
+#Schema
+class Student(BaseModel):
+    name: str
+    age: int
+    yearOf: str
 
 #Endpoints
 @app.get("/")
@@ -25,9 +33,9 @@ def get_student(student_id: int = Path(None, description="The ID of the student 
     return students[student_id]
 
 #query parameter
-@app.get("/get-by-name")
-def get_Student(name: str):
+@app.get("/get-by-name/{student_id}")
+def get_Student(student_id: int, name: Optional[str] = None):
     for student_id in students:
         if students[student_id]["name"] == name:
             return students[student_id]
-    return ("Error": "Student not found!")
+    return {"Error": "Student not found!"}
