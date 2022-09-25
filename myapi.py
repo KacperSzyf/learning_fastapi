@@ -39,3 +39,11 @@ def get_Student(student_id: int, name: Optional[str] = None):
         if students[student_id]["name"] == name:
             return students[student_id]
     return {"Error": "Student not found!"}
+
+@app.post("/create-student/{student_id}")
+def create_student(student_id: int, student: Student):
+    if student_id in students:
+        return {"Error" : "Student ID already Exists!"}
+
+    students[student_id] = student
+    return students[student_id]
